@@ -19,15 +19,28 @@ public class PizzaService {
     public List<Pizza> findAllPizzas() {
         return this.pizzaRepository.findAll()
                 .stream()
-                .map(this::makePizzaFromEntity)
+                .map(PizzaService::makePizzaFromEntity)
                 .collect(Collectors.toList());
     }
 
-    private Pizza makePizzaFromEntity(PizzaEntity pizzaEntity) {
+    public Pizza createPizza(Pizza pizza) {
+        PizzaEntity pizzaModel = new PizzaEntity();
+        pizzaModel.setName(pizza.getName());
+        pizzaModel.setPrice(pizza.getPrice());
+
+        PizzaEntity persistedPizza = this.pizzaRepository.save(pizzaModel);
+        return makePizzaFromEntity(persistedPizza);
+    }
+
+    private static Pizza makePizzaFromEntity(PizzaEntity pizzaEntity) {
         Pizza pizza = new Pizza();
         pizza.setId(pizzaEntity.getId());
         pizza.setName(pizzaEntity.getName());
         pizza.setPrice(pizzaEntity.getPrice());
         return pizza;
+    }
+
+    public Pizza updatePizza(Pizza pizza) {
+        return null;
     }
 }
