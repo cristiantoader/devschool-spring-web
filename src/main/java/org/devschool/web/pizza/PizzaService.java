@@ -40,7 +40,17 @@ public class PizzaService {
         return pizza;
     }
 
-    public Pizza updatePizza(Pizza pizza) {
-        return null;
+    public Pizza updatePizza(Long id, UpdatePizza updatePizza) {
+        PizzaEntity pizzaEntity = this.pizzaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Pizza not found :("));
+
+        pizzaEntity.setPrice(updatePizza.getPrice());
+
+        PizzaEntity savedPizza = this.pizzaRepository.save(pizzaEntity);
+        return makePizzaFromEntity(savedPizza);
+    }
+
+    public void removePizza(Long id) {
+        this.pizzaRepository.deleteById(id);
     }
 }

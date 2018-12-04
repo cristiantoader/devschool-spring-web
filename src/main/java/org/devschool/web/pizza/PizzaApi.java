@@ -30,11 +30,16 @@ public class PizzaApi {
         return this.pizzaService.createPizza(pizza);
     }
 
-    // PUT localhost:8080/pizza/1 {...json content...}
     @PutMapping(value = "/{id}")
     public Pizza updatePizza(@PathVariable("id") Long id,
-                             @RequestBody Pizza pizza) {
-        log.info("Updating pizza with id {} using modifications {}.", id, pizza);
-        return this.pizzaService.updatePizza(pizza);
+                             @RequestBody UpdatePizza updatePizza) {
+        log.info("Updating pizza with id {} using modifications {}.", id, updatePizza);
+        return this.pizzaService.updatePizza(id, updatePizza);
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public void removePizza(@PathVariable("id") Long id) {
+        log.info("Deleting pizza with id {}.", id);
+        this.pizzaService.removePizza(id);
     }
 }
